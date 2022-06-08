@@ -22,8 +22,16 @@ int main(int argc, char *argv[]) {
     pid_t pid;
     pid = fork();
     if (pid == 0) {
+        //关闭不需要的写端
+        close(fd1[1]);
+        //关闭不需要的读端
+        close(fd2[0]);
         child_loop(fd1[0], fd2[1]);
     } else {
+        //关闭不需要的读端
+        close(fd1[0]);
+        //关闭不需要的写端
+        close(fd2[1]);
         parent_loop(fd2[0], fd1[1]);
     }
     return 0;
